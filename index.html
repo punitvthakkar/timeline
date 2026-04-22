@@ -4,251 +4,356 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Project Timeline — Apr 23 – May 25, 2026</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --blue: #3b82f6; --blue-light: #dbeafe;
-            --purple: #8b5cf6; --purple-light: #ede9fe;
-            --orange: #f59e0b; --orange-light: #fef3c7;
-            --teal: #14b8a6; --teal-light: #ccfbf1;
-            --rose: #f43f5e; --rose-light: #ffe4e6;
-            --navy: #0f172a; --navy-light: #1e293b;
-            --gray-600: #475569; --gray-400: #94a3b8;
-            --gray-200: #e2e8f0; --gray-100: #f1f5f9;
-            --white: #ffffff; --red: #ef4444;
+            /* Tonal Palettes */
+            --md-sys-color-background: #F4F7F4;
+            --md-sys-color-on-background: #191C1A;
+            --md-sys-color-surface: #FDFDFD;
+            --md-sys-color-surface-dim: #DEDCDB;
+            --md-sys-color-surface-container: #F4F7F4;
+            --md-sys-color-surface-container-high: #EAECE9;
+            --md-sys-color-surface-container-highest: #E4E6E3;
+            --md-sys-color-surface-variant: #DBE5DD;
+            --md-sys-color-on-surface: #191C1A;
+            --md-sys-color-on-surface-variant: #404943;
+            --md-sys-color-primary: #006C4C;
+            --md-sys-color-on-primary: #FFFFFF;
+            --md-sys-color-primary-container: #89F8C7;
+            --md-sys-color-on-primary-container: #002114;
+            --md-sys-color-outline: #707973;
+            --md-sys-color-outline-variant: #BFC9C2;
+            --md-sys-color-error: #BA1A1A;
+            
+            /* Phases */
+            --p1: #006C4C; --p1-c: #89F8C7; --on-p1-c: #002114;
+            --p2: #006A60; --p2-c: #74F8E5; --on-p2-c: #00201C;
+            --p3: #795900; --p3-c: #FFDF9E; --on-p3-c: #261A00;
+            --p4: #8D4F00; --p4-c: #FFDCC5; --on-p4-c: #2D1600;
+            --p5: #B02F4C; --p5-c: #FFD9DE; --on-p5-c: #3F0014;
+
+            --radius-xl: 28px;
+            --radius-lg: 24px;
+            --radius-md: 16px;
+            --radius-sm: 8px;
+            --radius-pill: 100px;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --md-sys-color-background: #191C1A;
+                --md-sys-color-on-background: #E1E3DF;
+                --md-sys-color-surface: #191C1A;
+                --md-sys-color-surface-dim: #111412;
+                --md-sys-color-surface-container: #252B28;
+                --md-sys-color-surface-container-high: #2F3632;
+                --md-sys-color-surface-container-highest: #3A413D;
+                --md-sys-color-surface-variant: #404943;
+                --md-sys-color-on-surface: #E1E3DF;
+                --md-sys-color-on-surface-variant: #BFC9C2;
+                --md-sys-color-primary: #6CDBAC;
+                --md-sys-color-on-primary: #003826;
+                --md-sys-color-primary-container: #005239;
+                --md-sys-color-on-primary-container: #89F8C7;
+                --md-sys-color-outline: #89938C;
+                --md-sys-color-outline-variant: #404943;
+                --md-sys-color-error: #FFB4AB;
+
+                --p1: #6CDBAC; --p1-c: #005239; --on-p1-c: #89F8C7;
+                --p2: #53DBC9; --p2-c: #005048; --on-p2-c: #74F8E5;
+                --p3: #FABD00; --p3-c: #5C4300; --on-p3-c: #FFDF9E;
+                --p4: #FFB782; --p4-c: #6A3B00; --on-p4-c: #FFDCC5;
+                --p5: #FFB2BE; --p5-c: #8D1436; --on-p5-c: #FFD9DE;
+            }
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
-
+        
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: var(--gray-100); color: var(--navy); line-height: 1.5;
+            font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--md-sys-color-background);
+            color: var(--md-sys-color-on-background);
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
         }
 
-        .canvas { width: 1890px; margin: 0 auto; background: var(--gray-100); padding: 48px 56px; }
+        /* ─── App Bar ─── */
+        .sync-bar {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+            display: flex; align-items: center; justify-content: flex-end;
+            height: 64px; padding: 0 24px; gap: 12px;
+            background: var(--md-sys-color-surface);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            transition: background 0.3s;
+        }
+        @media (prefers-color-scheme: dark) {
+            .sync-bar { border-bottom: 1px solid var(--md-sys-color-outline-variant); box-shadow: none; }
+        }
+        .sync-bar button {
+            background: var(--md-sys-color-surface-container-high);
+            color: var(--md-sys-color-on-surface);
+            border: none;
+            font-size: 14px; font-family: inherit; font-weight: 500;
+            padding: 0 16px; height: 40px;
+            border-radius: var(--radius-pill); cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.2, 0, 0, 1);
+            display: inline-flex; align-items: center; justify-content: center;
+        }
+        .sync-bar button:hover {
+            background: var(--md-sys-color-outline-variant);
+            color: var(--md-sys-color-on-surface);
+        }
+        .sync-label { font-size: 13px; color: var(--md-sys-color-on-surface-variant); font-weight: 500; margin-left: 8px;}
+        .sync-dot { width: 10px; height: 10px; border-radius: 50%; transition: background 0.3s; }
+        .sync-dot.saved { background: var(--p1); }
+        .sync-dot.saving { background: var(--p3); }
+        .sync-dot.error { background: var(--md-sys-color-error); }
+        .sync-dot.offline { background: var(--md-sys-color-outline); }
+
+        /* ─── Main Layout ─── */
+        .canvas {
+            width: 100%; max-width: 1400px; margin: 0 auto;
+            padding: 88px 24px 48px;
+        }
+        @media (max-width: 768px) {
+            .canvas { padding: 80px 16px 32px; }
+        }
 
         /* ─── Phase Cards ─── */
-        .phases-section { margin-bottom: 48px; }
-        #phases-grid { display: grid; gap: 20px; }
-        .phase-card {
-            background: var(--white); border-radius: 16px; padding: 24px;
-            border-top: 4px solid; min-height: 180px;
+        .phases-section { margin-bottom: 40px; }
+        #phases-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 16px;
         }
-        .phase-card.pc-1 { border-top-color: var(--blue);   background: linear-gradient(to bottom, var(--blue-light)   0%, var(--white) 100%); }
-        .phase-card.pc-2 { border-top-color: var(--purple); background: linear-gradient(to bottom, var(--purple-light) 0%, var(--white) 100%); }
-        .phase-card.pc-3 { border-top-color: var(--orange); background: linear-gradient(to bottom, var(--orange-light) 0%, var(--white) 100%); }
-        .phase-card.pc-4 { border-top-color: var(--teal);   background: linear-gradient(to bottom, var(--teal-light)   0%, var(--white) 100%); }
-        .phase-card.pc-5 { border-top-color: var(--rose);   background: linear-gradient(to bottom, var(--rose-light)   0%, var(--white) 100%); }
+        .phase-card {
+            background: var(--md-sys-color-surface-container);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            display: flex; flex-direction: column;
+            transition: transform 0.2s;
+            position: relative; overflow: hidden;
+            min-height: 180px;
+        }
+        .phase-card::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 8px;
+        }
+        .phase-card.pc-1 { background: var(--p1-c); color: var(--on-p1-c); }
+        .phase-card.pc-2 { background: var(--p2-c); color: var(--on-p2-c); }
+        .phase-card.pc-3 { background: var(--p3-c); color: var(--on-p3-c); }
+        .phase-card.pc-4 { background: var(--p4-c); color: var(--on-p4-c); }
+        .phase-card.pc-5 { background: var(--p5-c); color: var(--on-p5-c); }
 
-        .phase-number { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
-        .phase-number.pn-1 { color: var(--blue); }
-        .phase-number.pn-2 { color: var(--purple); }
-        .phase-number.pn-3 { color: var(--orange); }
-        .phase-number.pn-4 { color: var(--teal); }
-        .phase-number.pn-5 { color: var(--rose); }
+        .phase-number { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; opacity: 0.8; }
+        .phase-number.pn-1 { color: var(--on-p1-c); }
+        .phase-number.pn-2 { color: var(--on-p2-c); }
+        .phase-number.pn-3 { color: var(--on-p3-c); }
+        .phase-number.pn-4 { color: var(--on-p4-c); }
+        .phase-number.pn-5 { color: var(--on-p5-c); }
 
-        .phase-title { font-size: 22px; font-weight: 700; color: var(--navy); margin-bottom: 4px; line-height: 1.2; }
-        .phase-date  { font-size: 13px; color: var(--gray-400); margin-bottom: 16px; }
-        .phase-activities { list-style: none; }
-        .phase-activities li { font-size: 14px; color: var(--gray-600); margin-bottom: 8px; padding-left: 24px; position: relative; }
-        .phase-activities li::before { content: '\2192'; position: absolute; left: 0; color: var(--gray-400); }
-        .phase-empty { font-size: 13px; color: var(--gray-400); font-style: italic; }
+        .phase-title { font-size: 24px; font-weight: 600; margin-bottom: 4px; line-height: 1.2; letter-spacing: -0.5px;}
+        .phase-date  { font-size: 14px; opacity: 0.7; margin-bottom: 20px; font-weight: 500; }
+        .phase-activities { list-style: none; flex: 1; }
+        .phase-activities li { font-size: 14px; margin-bottom: 12px; padding-left: 20px; position: relative; font-weight: 500; opacity: 0.9;}
+        .phase-activities li::before { content: ''; position: absolute; left: 0; top: 6px; width: 6px; height: 6px; border-radius: 50%; background: currentColor; opacity: 0.6; }
+        .phase-empty { font-size: 14px; opacity: 0.6; font-style: italic; }
 
         /* ─── Timeline ─── */
-        .timeline-section { background: var(--white); border-radius: 16px; padding: 32px; }
-        .section-header { display: flex; align-items: center; gap: 16px; margin-bottom: 28px; }
-        .section-header h2 { font-size: 28px; font-weight: 700; color: var(--navy); }
-        .section-header::after { content: ''; flex: 1; height: 3px; background: linear-gradient(90deg, var(--orange), transparent); border-radius: 2px; }
+        .timeline-section {
+            background: var(--md-sys-color-surface-container);
+            border-radius: var(--radius-xl);
+            padding: 32px 24px;
+        }
+        @media (max-width: 768px) {
+            .timeline-section { padding: 24px 16px; }
+        }
+        .section-header { margin-bottom: 24px; display: flex; align-items: center; gap: 16px; }
+        .section-header h2 { font-size: 32px; font-weight: 600; color: var(--md-sys-color-on-surface); letter-spacing: -0.5px; }
+
+        /* Gantt Scroll Container */
+        .gantt-wrapper {
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            padding-bottom: 16px;
+        }
 
         /* ─── Gantt ─── */
-        .gantt { background: var(--navy); border-radius: 12px; padding: 24px 28px; user-select: none; }
+        .gantt { min-width: 900px; user-select: none; }
 
-        .gantt-header { display: flex; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,0.1); }
-        .gantt-header-label { width: 290px; min-width: 290px; font-size: 11px; color: var(--gray-400); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; padding-left: 36px; }
+        .gantt-header { display: flex; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid var(--md-sys-color-outline-variant); }
+        .gantt-header-label { width: 260px; min-width: 260px; font-size: 12px; color: var(--md-sys-color-on-surface-variant); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; padding-left: 36px; }
         .gantt-header-cols { flex: 1; display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
-        .gantt-header-cols span { text-align: center; font-size: 11px; color: var(--orange); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; line-height: 1.3; }
-        .gantt-header-cols span small { display: block; font-weight: 400; font-size: 10px; opacity: 0.7; }
+        .gantt-header-cols span { text-align: center; font-size: 12px; color: var(--md-sys-color-on-surface); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+        .gantt-header-cols span small { display: block; font-weight: 400; font-size: 11px; color: var(--md-sys-color-on-surface-variant); margin-top: 2px; text-transform: none; }
 
-        .gantt-section { display: flex; align-items: center; padding: 14px 0 8px 36px; border-top: 1px solid rgba(255,255,255,0.06); gap: 10px; }
-        .gantt-section:first-child { border-top: none; padding-top: 0; }
+        .gantt-section { display: flex; align-items: center; padding: 16px 0 8px 36px; gap: 10px; }
 
         .gantt-section-title {
-            font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.2px;
-            cursor: default; padding: 2px 6px; border-radius: 4px; transition: background 0.15s;
+            font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;
+            cursor: pointer; padding: 4px 12px; border-radius: var(--radius-pill); transition: background 0.2s;
+            background: var(--md-sys-color-surface-container-high);
         }
-        .gantt-section-title:hover { background: rgba(255,255,255,0.06); }
+        .gantt-section-title:hover { filter: brightness(0.95); }
         .gantt-section-title input {
-            background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.25);
-            color: inherit; font-size: 11px; font-weight: 700; font-family: inherit;
-            text-transform: uppercase; letter-spacing: 1.2px;
-            padding: 1px 5px; border-radius: 4px; outline: none; width: 200px;
+            background: transparent; border: none; border-bottom: 2px solid var(--md-sys-color-primary);
+            color: inherit; font-size: 12px; font-weight: 700; font-family: inherit;
+            text-transform: uppercase; letter-spacing: 0.5px;
+            padding: 2px 4px; outline: none; width: 200px;
         }
-        .gantt-section-title input:focus { border-color: var(--orange); background: rgba(255,255,255,0.14); }
 
-        .sc-1 { color: var(--blue); }   .sc-2 { color: var(--purple); }
-        .sc-3 { color: var(--orange); } .sc-4 { color: var(--teal); }
-        .sc-5 { color: var(--rose); }
+        .sc-1 { color: var(--p1); } .sc-2 { color: var(--p2); }
+        .sc-3 { color: var(--p3); } .sc-4 { color: var(--p4); } .sc-5 { color: var(--p5); }
 
         /* Buttons */
         .add-btn {
             display: inline-flex; align-items: center; gap: 4px;
-            background: rgba(255,255,255,0.06); border: 1px dashed rgba(255,255,255,0.15);
-            color: var(--gray-400); font-size: 11px; font-weight: 600; font-family: inherit;
-            padding: 3px 10px; border-radius: 6px; cursor: pointer; transition: all 0.15s; letter-spacing: 0.3px;
+            background: transparent; border: 1px solid var(--md-sys-color-outline-variant);
+            color: var(--md-sys-color-on-surface-variant); font-size: 12px; font-weight: 600; font-family: inherit;
+            height: 28px; padding: 0 12px; border-radius: var(--radius-pill); cursor: pointer; transition: all 0.2s;
         }
-        .add-btn:hover { background: rgba(255,255,255,0.1); color: var(--white); border-color: rgba(255,255,255,0.3); }
-        .add-btn svg { width: 12px; height: 12px; stroke: currentColor; fill: none; stroke-width: 2; }
+        .add-btn:hover { background: var(--md-sys-color-surface-container-high); color: var(--md-sys-color-on-surface); }
+        .add-btn svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2; }
 
         .add-section-btn {
-            display: flex; align-items: center; justify-content: center; gap: 6px;
-            width: 100%; margin-top: 16px; padding: 10px;
-            background: rgba(255,255,255,0.03); border: 1px dashed rgba(255,255,255,0.12);
-            color: var(--gray-400); font-size: 12px; font-weight: 600; font-family: inherit;
-            border-radius: 8px; cursor: pointer; transition: all 0.15s; letter-spacing: 0.3px;
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+            width: 100%; margin-top: 16px; height: 48px;
+            background: transparent; border: 2px dashed var(--md-sys-color-outline-variant);
+            color: var(--md-sys-color-primary); font-size: 14px; font-weight: 600; font-family: inherit;
+            border-radius: var(--radius-md); cursor: pointer; transition: all 0.2s;
         }
-        .add-section-btn:hover { background: rgba(255,255,255,0.07); color: var(--white); border-color: rgba(255,255,255,0.25); }
-        .add-section-btn svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2; }
+        .add-section-btn:hover { background: var(--md-sys-color-surface-container-high); border-color: var(--md-sys-color-primary); }
+        .add-section-btn svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 2; }
 
         .section-delete {
             display: flex; align-items: center; justify-content: center;
-            width: 20px; height: 20px; min-width: 20px;
-            background: none; border: none; color: var(--gray-400);
-            cursor: pointer; border-radius: 4px; opacity: 0; transition: all 0.15s;
+            width: 28px; height: 28px; border-radius: 50%; min-width: 28px;
+            background: none; border: none; color: var(--md-sys-color-on-surface-variant);
+            cursor: pointer; opacity: 0; transition: all 0.2s;
         }
-        .gantt-section:hover .section-delete { opacity: 0.5; }
-        .section-delete:hover { opacity: 1 !important; background: rgba(239,68,68,0.15); color: var(--red); }
-        .section-delete svg { width: 12px; height: 12px; stroke: currentColor; fill: none; stroke-width: 2; }
+        .gantt-section:hover .section-delete { opacity: 0.7; }
+        .section-delete:hover { opacity: 1 !important; background: var(--md-sys-color-error); color: var(--md-sys-color-surface); }
+        .section-delete svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2; }
 
-        .color-dots { display: flex; gap: 5px; margin-left: 4px; }
+        .color-dots { display: flex; gap: 6px; margin-left: 4px; }
         .color-dot {
-            width: 14px; height: 14px; border-radius: 50%; border: 2px solid transparent;
-            cursor: pointer; transition: all 0.15s; opacity: 0;
+            width: 16px; height: 16px; border-radius: 50%; border: 2px solid transparent;
+            cursor: pointer; transition: transform 0.2s; opacity: 0;
         }
-        .gantt-section:hover .color-dot { opacity: 0.6; }
+        .gantt-section:hover .color-dot { opacity: 0.8; }
         .color-dot:hover { opacity: 1 !important; transform: scale(1.2); }
-        .color-dot.active { border-color: var(--white); opacity: 1 !important; }
-        .color-dot[data-c="1"] { background: var(--blue); }
-        .color-dot[data-c="2"] { background: var(--purple); }
-        .color-dot[data-c="3"] { background: var(--orange); }
-        .color-dot[data-c="4"] { background: var(--teal); }
-        .color-dot[data-c="5"] { background: var(--rose); }
+        .color-dot.active { border-color: var(--md-sys-color-on-surface); opacity: 1 !important; }
+        .color-dot[data-c="1"] { background: var(--p1); }
+        .color-dot[data-c="2"] { background: var(--p2); }
+        .color-dot[data-c="3"] { background: var(--p3); }
+        .color-dot[data-c="4"] { background: var(--p4); }
+        .color-dot[data-c="5"] { background: var(--p5); }
 
         /* Activity rows */
-        .gantt-row { display: flex; align-items: center; margin-bottom: 5px; height: 32px; border-radius: 6px; transition: background 0.15s; }
-        .gantt-row:hover { background: rgba(255,255,255,0.03); }
-        .gantt-row.dragging-row { opacity: 0.35; }
-        .gantt-row.drag-over-row { box-shadow: 0 -2px 0 0 var(--orange); }
+        .gantt-row { display: flex; align-items: center; margin-bottom: 6px; height: 40px; border-radius: var(--radius-md); transition: background 0.2s; }
+        .gantt-row:hover { background: var(--md-sys-color-surface-container-high); }
+        .gantt-row.dragging-row { opacity: 0.4; }
+        .gantt-row.drag-over-row { background: var(--md-sys-color-surface-variant); }
 
-        .row-grip { width: 20px; min-width: 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; cursor: grab; opacity: 0.2; transition: opacity 0.15s; }
-        .gantt-row:hover .row-grip { opacity: 0.6; }
+        .row-grip { width: 24px; min-width: 24px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; cursor: grab; opacity: 0.3; transition: opacity 0.2s; }
+        .gantt-row:hover .row-grip { opacity: 0.8; }
         .row-grip:active { cursor: grabbing; }
-        .row-grip i { display: block; width: 12px; height: 2px; background: var(--gray-400); border-radius: 1px; }
+        .row-grip i { display: block; width: 4px; height: 4px; background: var(--md-sys-color-on-surface-variant); border-radius: 50%; }
 
         .gantt-row-label {
-            width: 210px; min-width: 210px; font-size: 13px; color: var(--white); font-weight: 500;
-            padding: 2px 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-            cursor: default; border-radius: 4px; transition: background 0.15s;
+            width: 230px; min-width: 230px; font-size: 14px; color: var(--md-sys-color-on-surface); font-weight: 500;
+            padding: 4px 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+            cursor: pointer; border-radius: var(--radius-sm);
         }
-        .gantt-row-label:hover { background: rgba(255,255,255,0.06); }
+        .gantt-row-label:hover { background: var(--md-sys-color-surface-variant); }
         .gantt-row-label input {
-            background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.25);
-            color: var(--white); font-size: 13px; font-weight: 500; font-family: inherit;
-            padding: 1px 5px; border-radius: 4px; outline: none; width: 100%;
+            background: var(--md-sys-color-surface-container-highest); border: none; border-bottom: 2px solid var(--md-sys-color-primary);
+            color: var(--md-sys-color-on-surface); font-size: 14px; font-weight: 500; font-family: inherit;
+            padding: 4px 8px; border-radius: 4px 4px 0 0; outline: none; width: 100%;
         }
-        .gantt-row-label input:focus { border-color: var(--orange); background: rgba(255,255,255,0.14); }
 
         .row-delete {
-            width: 22px; min-width: 22px; height: 22px;
+            width: 28px; min-width: 28px; height: 28px;
             display: flex; align-items: center; justify-content: center;
-            background: none; border: none; color: var(--gray-400);
-            cursor: pointer; border-radius: 4px; opacity: 0; transition: all 0.15s; margin-right: 2px;
+            background: none; border: none; color: var(--md-sys-color-on-surface-variant);
+            cursor: pointer; border-radius: 50%; opacity: 0; transition: all 0.2s; margin-right: 8px;
         }
-        .gantt-row:hover .row-delete { opacity: 0.5; }
-        .row-delete:hover { opacity: 1 !important; background: rgba(239,68,68,0.15); color: var(--red); }
+        .gantt-row:hover .row-delete { opacity: 0.7; }
+        .row-delete:hover { opacity: 1 !important; background: var(--md-sys-color-error); color: var(--md-sys-color-surface); }
         .row-delete svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2; }
 
-        .gantt-track { flex: 1; position: relative; height: 28px; }
-        .gantt-track::before { content: ''; position: absolute; inset: 0; background: repeating-linear-gradient(90deg, transparent 0%, transparent calc(20% - 3px), rgba(255,255,255,0.04) calc(20% - 3px), rgba(255,255,255,0.04) 20%); pointer-events: none; border-radius: 4px; }
+        .gantt-track { flex: 1; position: relative; height: 32px; background: var(--md-sys-color-surface-container-high); border-radius: var(--radius-pill); overflow: hidden;}
+        .gantt-track::before {
+            content: ''; position: absolute; inset: 0;
+            background: repeating-linear-gradient(90deg, transparent 0%, transparent calc(20% - 1px), var(--md-sys-color-outline-variant) calc(20% - 1px), var(--md-sys-color-outline-variant) 20%);
+            pointer-events: none; opacity: 0.3;
+        }
 
-        .gantt-bar { position: absolute; top: 0; height: 100%; border-radius: 6px; cursor: grab; transition: box-shadow 0.15s, filter 0.15s; z-index: 2; }
-        .gantt-bar:hover { filter: brightness(1.15); box-shadow: 0 0 0 2px rgba(255,255,255,0.25); }
+        .gantt-bar { position: absolute; top: 0; height: 100%; border-radius: var(--radius-pill); cursor: grab; transition: filter 0.2s; z-index: 2; display: flex; align-items: center; justify-content: space-between; padding: 0 4px;}
+        .gantt-bar:hover { filter: brightness(1.1); box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
         .gantt-bar:active { cursor: grabbing; }
-        .gantt-bar.bar-1 { background: var(--blue); }
-        .gantt-bar.bar-2 { background: var(--purple); }
-        .gantt-bar.bar-3 { background: var(--orange); }
-        .gantt-bar.bar-4 { background: var(--teal); }
-        .gantt-bar.bar-5 { background: var(--rose); }
-        .gantt-bar.is-dragging { z-index: 10; box-shadow: 0 4px 20px rgba(0,0,0,0.5); filter: brightness(1.2); }
+        .gantt-bar.bar-1 { background: var(--p1); }
+        .gantt-bar.bar-2 { background: var(--p2); }
+        .gantt-bar.bar-3 { background: var(--p3); }
+        .gantt-bar.bar-4 { background: var(--p4); }
+        .gantt-bar.bar-5 { background: var(--p5); }
+        .gantt-bar.is-dragging { z-index: 10; filter: brightness(1.2); box-shadow: 0 8px 24px rgba(0,0,0,0.15); }
 
-        .bar-handle { position: absolute; top: 0; width: 10px; height: 100%; cursor: col-resize; z-index: 3; }
-        .bar-handle-l { left: -2px; border-radius: 6px 0 0 6px; }
-        .bar-handle-r { right: -2px; border-radius: 0 6px 6px 0; }
-        .bar-handle::after { content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 3px; height: 12px; border-radius: 2px; background: rgba(255,255,255,0.4); opacity: 0; transition: opacity 0.15s; }
-        .gantt-bar:hover .bar-handle::after { opacity: 1; }
+        .bar-handle { width: 12px; height: 24px; border-radius: 12px; cursor: col-resize; z-index: 3; background: rgba(255,255,255,0.2); transition: background 0.2s;}
+        .gantt-bar:hover .bar-handle { background: rgba(255,255,255,0.4); }
+        .bar-handle-l { margin-left: 2px; }
+        .bar-handle-r { margin-right: 2px; }
 
-        .snap-line { position: absolute; top: 0; bottom: 0; width: 1px; background: rgba(255,255,255,0.1); pointer-events: none; z-index: 1; }
-
-        #tooltip { position: fixed; background: var(--navy-light); color: var(--white); font-size: 12px; font-weight: 500; padding: 6px 12px; border-radius: 8px; pointer-events: none; z-index: 100; white-space: nowrap; box-shadow: 0 4px 16px rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.1); opacity: 0; transition: opacity 0.12s; }
-        #tooltip.visible { opacity: 1; }
-
-        /* ─── Sync indicator ─── */
-        .sync-bar {
-            position: fixed; top: 0; left: 0; right: 0; z-index: 200;
-            display: flex; align-items: center; justify-content: flex-end;
-            padding: 6px 20px; gap: 10px;
-            background: var(--navy); border-bottom: 1px solid rgba(255,255,255,0.08);
-            font-family: 'Inter', sans-serif;
+        #tooltip {
+            position: fixed; background: var(--md-sys-color-on-surface); color: var(--md-sys-color-surface);
+            font-size: 13px; font-weight: 500; padding: 8px 16px; border-radius: var(--radius-sm);
+            pointer-events: none; z-index: 100; white-space: nowrap;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15); opacity: 0; transition: opacity 0.2s, transform 0.1s;
         }
-        .sync-dot {
-            width: 8px; height: 8px; border-radius: 50%; transition: background 0.3s;
-        }
-        .sync-dot.saved { background: #22c55e; }
-        .sync-dot.saving { background: var(--orange); }
-        .sync-dot.error { background: var(--red); }
-        .sync-dot.offline { background: var(--gray-400); }
-        .sync-label {
-            font-size: 11px; color: var(--gray-400); font-weight: 500; letter-spacing: 0.3px;
-        }
-        .sync-bar button {
-            background: none; border: 1px solid rgba(255,255,255,0.15); color: var(--gray-400);
-            font-size: 11px; font-family: inherit; font-weight: 500;
-            padding: 3px 10px; border-radius: 6px; cursor: pointer; letter-spacing: 0.3px;
-        }
-        .sync-bar button:hover { color: var(--white); border-color: rgba(255,255,255,0.3); }
-        .canvas { padding-top: 56px; }
+        #tooltip.visible { opacity: 1; transform: translateY(-4px); }
 
         /* ─── Auth modal ─── */
         .auth-overlay {
             position: fixed; inset: 0; z-index: 300;
-            background: rgba(15,23,42,0.85); backdrop-filter: blur(6px);
-            display: flex; align-items: center; justify-content: center;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(4px);
+            display: flex; align-items: center; justify-content: center; padding: 24px;
         }
         .auth-overlay.hidden { display: none; }
         .canvas.locked { display: none; }
         .auth-box {
-            background: var(--white); border-radius: 16px; padding: 32px; width: 380px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            background: var(--md-sys-color-surface-container);
+            border-radius: var(--radius-xl); padding: 32px; width: 100%; max-width: 400px;
+            box-shadow: 0 24px 48px rgba(0,0,0,0.2);
+            display: flex; flex-direction: column; gap: 16px;
         }
-        .auth-box h3 { font-size: 18px; font-weight: 700; margin-bottom: 4px; color: var(--navy); }
-        .auth-box p { font-size: 13px; color: var(--gray-600); margin-bottom: 20px; line-height: 1.5; }
+        .auth-box h3 { font-size: 24px; font-weight: 600; color: var(--md-sys-color-on-surface); letter-spacing: -0.5px; }
+        .auth-box p { font-size: 15px; color: var(--md-sys-color-on-surface-variant); line-height: 1.5; }
         .auth-box input[type="password"] {
-            width: 100%; padding: 10px 14px; font-size: 14px; font-family: inherit;
-            border: 1.5px solid var(--gray-200); border-radius: 8px; outline: none;
-            transition: border-color 0.15s;
+            width: 100%; padding: 16px; font-size: 16px; font-family: inherit;
+            background: var(--md-sys-color-surface-variant);
+            color: var(--md-sys-color-on-surface);
+            border: none; border-bottom: 2px solid var(--md-sys-color-primary);
+            border-radius: 8px 8px 0 0; outline: none;
+            transition: background 0.2s;
         }
-        .auth-box input[type="password"]:focus { border-color: var(--blue); }
-        .auth-box .auth-actions { display: flex; gap: 10px; margin-top: 16px; }
+        .auth-box input[type="password"]:focus { background: var(--md-sys-color-surface-container-highest); }
+        .auth-box .auth-actions { display: flex; gap: 12px; margin-top: 8px; justify-content: flex-end;}
         .auth-box .auth-btn {
-            flex: 1; padding: 10px; font-size: 13px; font-weight: 600; font-family: inherit;
-            border-radius: 8px; cursor: pointer; border: none; transition: all 0.15s;
+            padding: 0 24px; height: 40px; font-size: 14px; font-weight: 600; font-family: inherit;
+            border-radius: var(--radius-pill); cursor: pointer; border: none; transition: all 0.2s;
+            display: inline-flex; align-items: center; justify-content: center; flex: 1;
         }
-        .auth-btn-primary { background: var(--navy); color: var(--white); }
-        .auth-btn-primary:hover { background: var(--navy-light); }
-        .auth-btn-skip { background: var(--gray-100); color: var(--gray-600); }
-        .auth-btn-skip:hover { background: var(--gray-200); }
-        .auth-error { font-size: 12px; color: var(--red); margin-top: 8px; display: none; }
+        .auth-btn-primary { background: var(--md-sys-color-primary); color: var(--md-sys-color-on-primary); }
+        .auth-btn-primary:hover { filter: brightness(1.1); box-shadow: 0 1px 3px rgba(0,0,0,0.2); }
+        .auth-error { font-size: 13px; color: var(--md-sys-color-error); font-weight: 500; display: none; }
 
-        @media print { body { -webkit-print-color-adjust: exact; print-color-adjust: exact; } .add-btn, .add-section-btn, .row-delete, .section-delete, .color-dots, .sync-bar { display: none !important; } .canvas { padding-top: 48px; } }
+        @media print {
+            body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            .add-btn, .add-section-btn, .row-delete, .section-delete, .color-dots, .sync-bar { display: none !important; }
+            .canvas { padding-top: 32px; }
+            .gantt-wrapper { overflow-x: visible; }
+        }
     </style>
 </head>
 <body>
@@ -259,7 +364,7 @@
         <input type="password" id="auth-input" placeholder="Enter password" autocomplete="off" spellcheck="false">
         <div class="auth-error" id="auth-error">Invalid token — please try again.</div>
         <div class="auth-actions">
-            <button class="auth-btn auth-btn-primary" id="auth-submit" style="flex:1">Connect</button>
+            <button class="auth-btn auth-btn-primary" id="auth-submit">Connect</button>
         </div>
     </div>
 </div>
@@ -275,7 +380,9 @@
     </div>
     <div class="timeline-section">
         <div class="section-header"><h2>Project Timeline</h2></div>
-        <div class="gantt" id="gantt"></div>
+        <div class="gantt-wrapper">
+            <div class="gantt" id="gantt"></div>
+        </div>
     </div>
 </div>
 <div id="tooltip"></div>
