@@ -621,7 +621,6 @@
     function renderCards() {
         phasesGridEl.innerHTML = '';
         var count = sections.length;
-        phasesGridEl.style.gridTemplateColumns = 'repeat(' + Math.min(count, 4) + ', 1fr)';
 
         sections.forEach(function(sec) {
             var card = document.createElement('div');
