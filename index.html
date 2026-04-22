@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Timeline — Apr 23 – May 25, 2026</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --blue: #3b82f6; --blue-light: #dbeafe;
+            --purple: #8b5cf6; --purple-light: #ede9fe;
+            --orange: #f59e0b; --orange-light: #fef3c7;
+            --teal: #14b8a6; --teal-light: #ccfbf1;
+            --rose: #f43f5e; --rose-light: #ffe4e6;
+            --navy: #0f172a; --navy-light: #1e293b;
+            --gray-600: #475569; --gray-400: #94a3b8;
+            --gray-200: #e2e8f0; --gray-100: #f1f5f9;
+            --white: #ffffff; --red: #ef4444;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--gray-100); color: var(--navy); line-height: 1.5;
+        }
+
+        .canvas { width: 1890px; margin: 0 auto; background: var(--gray-100); padding: 48px 56px; }
+
+        /* ─── Phase Cards ─── */
+        .phases-section { margin-bottom: 48px; }
+        #phases-grid { display: grid; gap: 20px; }
+        .phase-card {
+            background: var(--white); border-radius: 16px; padding: 24px;
+            border-top: 4px solid; min-height: 180px;
+        }
+        .phase-card.pc-1 { border-top-color: var(--blue);   background: linear-gradient(to bottom, var(--blue-light)   0%, var(--white) 100%); }
+        .phase-card.pc-2 { border-top-color: var(--purple); background: linear-gradient(to bottom, var(--purple-light) 0%, var(--white) 100%); }
+        .phase-card.pc-3 { border-top-color: var(--orange); background: linear-gradient(to bottom, var(--orange-light) 0%, var(--white) 100%); }
+        .phase-card.pc-4 { border-top-color: var(--teal);   background: linear-gradient(to bottom, var(--teal-light)   0%, var(--white) 100%); }
+        .phase-card.pc-5 { border-top-color: var(--rose);   background: linear-gradient(to bottom, var(--rose-light)   0%, var(--white) 100%); }
+
+        .phase-number { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+        .phase-number.pn-1 { color: var(--blue); }
+        .phase-number.pn-2 { color: var(--purple); }
+        .phase-number.pn-3 { color: var(--orange); }
+        .phase-number.pn-4 { color: var(--teal); }
+        .phase-number.pn-5 { color: var(--rose); }
+
+        .phase-title { font-size: 22px; font-weight: 700; color: var(--navy); margin-bottom: 4px; line-height: 1.2; }
+        .phase-date  { font-size: 13px; color: var(--gray-400); margin-bottom: 16px; }
+        .phase-activities { list-style: none; }
+        .phase-activities li { font-size: 14px; color: var(--gray-600); margin-bottom: 8px; padding-left: 24px; position: relative; }
+        .phase-activities li::before { content: '\2192'; position: absolute; left: 0; color: var(--gray-400); }
+        .phase-empty { font-size: 13px; color: var(--gray-400); font-style: italic; }
+
+        /* ─── Timeline ─── */
+        .timeline-section { background: var(--white); border-radius: 16px; padding: 32px; }
+        .section-header { display: flex; align-items: center; gap: 16px; margin-bottom: 28px; }
+        .section-header h2 { font-size: 28px; font-weight: 700; color: var(--navy); }
+        .section-header::after { content: ''; flex: 1; height: 3px; background: linear-gradient(90deg, var(--orange), transparent); border-radius: 2px; }
+
+        /* ─── Gantt ─── */
+        .gantt { background: var(--navy); border-radius: 12px; padding: 24px 28px; user-select: none; }
+
+        .gantt-header { display: flex; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .gantt-header-label { width: 290px; min-width: 290px; font-size: 11px; color: var(--gray-400); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; padding-left: 36px; }
+        .gantt-header-cols { flex: 1; display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
+        .gantt-header-cols span { text-align: center; font-size: 11px; color: var(--orange); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; line-height: 1.3; }
+        .gantt-header-cols span small { display: block; font-weight: 400; font-size: 10px; opacity: 0.7; }
+
+        .gantt-section { display: flex; align-items: center; padding: 14px 0 8px 36px; border-top: 1px solid rgba(255,255,255,0.06); gap: 10px; }
+        .gantt-section:first-child { border-top: none; padding-top: 0; }
+
+        .gantt-section-title {
+            font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.2px;
+            cursor: default; padding: 2px 6px; border-radius: 4px; transition: background 0.15s;
+        }
+        .gantt-section-title:hover { background: rgba(255,255,255,0.06); }
+        .gantt-section-title input {
+            background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.25);
+            color: inherit; font-size: 11px; font-weight: 700; font-family: inherit;
+            text-transform: uppercase; letter-spacing: 1.2px;
+            padding: 1px 5px; border-radius: 4px; outline: none; width: 200px;
+        }
+        .gantt-section-title input:focus { border-color: var(--orange); background: rgba(255,255,255,0.14); }
+
+        .sc-1 { color: var(--blue); }   .sc-2 { color: var(--purple); }
+        .sc-3 { color: var(--orange); } .sc-4 { color: var(--teal); }
+        .sc-5 { color: var(--rose); }
+
+        /* Buttons */
+        .add-btn {
+            display: inline-flex; align-items: center; gap: 4px;
+            background: rgba(255,255,255,0.06); border: 1px dashed rgba(255,255,255,0.15);
+            color: var(--gray-400); font-size: 11px; font-weight: 600; font-family: inherit;
+            padding: 3px 10px; border-radius: 6px; cursor: pointer; transition: all 0.15s; letter-spacing: 0.3px;
+        }
+        .add-btn:hover { background: rgba(255,255,255,0.1); color: var(--white); border-color: rgba(255,255,255,0.3); }
+        .add-btn svg { width: 12px; height: 12px; stroke: currentColor; fill: none; stroke-width: 2; }
+
+        .add-section-btn {
+            display: flex; align-items: center; justify-content: center; gap: 6px;
+            width: 100%; margin-top: 16px; padding: 10px;
+            background: rgba(255,255,255,0.03); border: 1px dashed rgba(255,255,255,0.12);
+            color: var(--gray-400); font-size: 12px; font-weight: 600; font-family: inherit;
+            border-radius: 8px; cursor: pointer; transition: all 0.15s; letter-spacing: 0.3px;
+        }
+        .add-section-btn:hover { background: rgba(255,255,255,0.07); color: var(--white); border-color: rgba(255,255,255,0.25); }
+        .add-section-btn svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2; }
+
+        .section-delete {
+            display: flex; align-items: center; justify-content: center;
+            width: 20px; height: 20px; min-width: 20px;
+            background: none; border: none; color: var(--gray-400);
+            cursor: pointer; border-radius: 4px; opacity: 0; transition: all 0.15s;
+        }
+        .gantt-section:hover .section-delete { opacity: 0.5; }
+        .section-delete:hover { opacity: 1 !important; background: rgba(239,68,68,0.15); color: var(--red); }
+        .section-delete svg { width: 12px; height: 12px; stroke: currentColor; fill: none; stroke-width: 2; }
+
+        .color-dots { display: flex; gap: 5px; margin-left: 4px; }
+        .color-dot {
+            width: 14px; height: 14px; border-radius: 50%; border: 2px solid transparent;
+            cursor: pointer; transition: all 0.15s; opacity: 0;
+        }
+        .gantt-section:hover .color-dot { opacity: 0.6; }
+        .color-dot:hover { opacity: 1 !important; transform: scale(1.2); }
+        .color-dot.active { border-color: var(--white); opacity: 1 !important; }
+        .color-dot[data-c="1"] { background: var(--blue); }
+        .color-dot[data-c="2"] { background: var(--purple); }
+        .color-dot[data-c="3"] { background: var(--orange); }
+        .color-dot[data-c="4"] { background: var(--teal); }
+        .color-dot[data-c="5"] { background: var(--rose); }
+
+        /* Activity rows */
+        .gantt-row { display: flex; align-items: center; margin-bottom: 5px; height: 32px; border-radius: 6px; transition: background 0.15s; }
+        .gantt-row:hover { background: rgba(255,255,255,0.03); }
+        .gantt-row.dragging-row { opacity: 0.35; }
+        .gantt-row.drag-over-row { box-shadow: 0 -2px 0 0 var(--orange); }
+
+        .row-grip { width: 20px; min-width: 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; cursor: grab; opacity: 0.2; transition: opacity 0.15s; }
+        .gantt-row:hover .row-grip { opacity: 0.6; }
+        .row-grip:active { cursor: grabbing; }
+        .row-grip i { display: block; width: 12px; height: 2px; background: var(--gray-400); border-radius: 1px; }
+
+        .gantt-row-label {
+            width: 210px; min-width: 210px; font-size: 13px; color: var(--white); font-weight: 500;
+            padding: 2px 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+            cursor: default; border-radius: 4px; transition: background 0.15s;
+        }
+        .gantt-row-label:hover { background: rgba(255,255,255,0.06); }
+        .gantt-row-label input {
+            background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.25);
+            color: var(--white); font-size: 13px; font-weight: 500; font-family: inherit;
+            padding: 1px 5px; border-radius: 4px; outline: none; width: 100%;
+        }
+        .gantt-row-label input:focus { border-color: var(--orange); background: rgba(255,255,255,0.14); }
+
+        .row-delete {
+            width: 22px; min-width: 22px; height: 22px;
+            display: flex; align-items: center; justify-content: center;
+            background: none; border: none; color: var(--gray-400);
+            cursor: pointer; border-radius: 4px; opacity: 0; transition: all 0.15s; margin-right: 2px;
+        }
+        .gantt-row:hover .row-delete { opacity: 0.5; }
+        .row-delete:hover { opacity: 1 !important; background: rgba(239,68,68,0.15); color: var(--red); }
+        .row-delete svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2; }
+
+        .gantt-track { flex: 1; position: relative; height: 28px; }
+        .gantt-track::before { content: ''; position: absolute; inset: 0; background: repeating-linear-gradient(90deg, transparent 0%, transparent calc(20% - 3px), rgba(255,255,255,0.04) calc(20% - 3px), rgba(255,255,255,0.04) 20%); pointer-events: none; border-radius: 4px; }
+
+        .gantt-bar { position: absolute; top: 0; height: 100%; border-radius: 6px; cursor: grab; transition: box-shadow 0.15s, filter 0.15s; z-index: 2; }
+        .gantt-bar:hover { filter: brightness(1.15); box-shadow: 0 0 0 2px rgba(255,255,255,0.25); }
+        .gantt-bar:active { cursor: grabbing; }
+        .gantt-bar.bar-1 { background: var(--blue); }
+        .gantt-bar.bar-2 { background: var(--purple); }
+        .gantt-bar.bar-3 { background: var(--orange); }
+        .gantt-bar.bar-4 { background: var(--teal); }
+        .gantt-bar.bar-5 { background: var(--rose); }
+        .gantt-bar.is-dragging { z-index: 10; box-shadow: 0 4px 20px rgba(0,0,0,0.5); filter: brightness(1.2); }
+
+        .bar-handle { position: absolute; top: 0; width: 10px; height: 100%; cursor: col-resize; z-index: 3; }
+        .bar-handle-l { left: -2px; border-radius: 6px 0 0 6px; }
+        .bar-handle-r { right: -2px; border-radius: 0 6px 6px 0; }
+        .bar-handle::after { content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 3px; height: 12px; border-radius: 2px; background: rgba(255,255,255,0.4); opacity: 0; transition: opacity 0.15s; }
+        .gantt-bar:hover .bar-handle::after { opacity: 1; }
+
+        .snap-line { position: absolute; top: 0; bottom: 0; width: 1px; background: rgba(255,255,255,0.1); pointer-events: none; z-index: 1; }
+
+        #tooltip { position: fixed; background: var(--navy-light); color: var(--white); font-size: 12px; font-weight: 500; padding: 6px 12px; border-radius: 8px; pointer-events: none; z-index: 100; white-space: nowrap; box-shadow: 0 4px 16px rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.1); opacity: 0; transition: opacity 0.12s; }
+        #tooltip.visible { opacity: 1; }
+
+        /* ─── Sync indicator ─── */
+        .sync-bar {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+            display: flex; align-items: center; justify-content: flex-end;
+            padding: 6px 20px; gap: 10px;
+            background: var(--navy); border-bottom: 1px solid rgba(255,255,255,0.08);
+            font-family: 'Inter', sans-serif;
+        }
+        .sync-dot {
+            width: 8px; height: 8px; border-radius: 50%; transition: background 0.3s;
+        }
+        .sync-dot.saved { background: #22c55e; }
+        .sync-dot.saving { background: var(--orange); }
+        .sync-dot.error { background: var(--red); }
+        .sync-dot.offline { background: var(--gray-400); }
+        .sync-label {
+            font-size: 11px; color: var(--gray-400); font-weight: 500; letter-spacing: 0.3px;
+        }
+        .sync-bar button {
+            background: none; border: 1px solid rgba(255,255,255,0.15); color: var(--gray-400);
+            font-size: 11px; font-family: inherit; font-weight: 500;
+            padding: 3px 10px; border-radius: 6px; cursor: pointer; letter-spacing: 0.3px;
+        }
+        .sync-bar button:hover { color: var(--white); border-color: rgba(255,255,255,0.3); }
+        .canvas { padding-top: 56px; }
+
+        /* ─── Auth modal ─── */
+        .auth-overlay {
+            position: fixed; inset: 0; z-index: 300;
+            background: rgba(15,23,42,0.85); backdrop-filter: blur(6px);
+            display: flex; align-items: center; justify-content: center;
+        }
+        .auth-overlay.hidden { display: none; }
+        .canvas.locked { display: none; }
+        .auth-box {
+            background: var(--white); border-radius: 16px; padding: 32px; width: 380px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        .auth-box h3 { font-size: 18px; font-weight: 700; margin-bottom: 4px; color: var(--navy); }
+        .auth-box p { font-size: 13px; color: var(--gray-600); margin-bottom: 20px; line-height: 1.5; }
+        .auth-box input[type="password"] {
+            width: 100%; padding: 10px 14px; font-size: 14px; font-family: inherit;
+            border: 1.5px solid var(--gray-200); border-radius: 8px; outline: none;
+            transition: border-color 0.15s;
+        }
+        .auth-box input[type="password"]:focus { border-color: var(--blue); }
+        .auth-box .auth-actions { display: flex; gap: 10px; margin-top: 16px; }
+        .auth-box .auth-btn {
+            flex: 1; padding: 10px; font-size: 13px; font-weight: 600; font-family: inherit;
+            border-radius: 8px; cursor: pointer; border: none; transition: all 0.15s;
+        }
+        .auth-btn-primary { background: var(--navy); color: var(--white); }
+        .auth-btn-primary:hover { background: var(--navy-light); }
+        .auth-btn-skip { background: var(--gray-100); color: var(--gray-600); }
+        .auth-btn-skip:hover { background: var(--gray-200); }
+        .auth-error { font-size: 12px; color: var(--red); margin-top: 8px; display: none; }
+
+        @media print { body { -webkit-print-color-adjust: exact; print-color-adjust: exact; } .add-btn, .add-section-btn, .row-delete, .section-delete, .color-dots, .sync-bar { display: none !important; } .canvas { padding-top: 48px; } }
+    </style>
+</head>
+<body>
+<div class="auth-overlay" id="auth-overlay">
+    <div class="auth-box">
+        <h3>Team token</h3>
+        <p>Enter your team password to access the timeline.</p>
+        <input type="password" id="auth-input" placeholder="Enter password" autocomplete="off" spellcheck="false">
+        <div class="auth-error" id="auth-error">Invalid token — please try again.</div>
+        <div class="auth-actions">
+            <button class="auth-btn auth-btn-primary" id="auth-submit" style="flex:1">Connect</button>
+        </div>
+    </div>
+</div>
+<div class="sync-bar">
+    <button id="sync-save" title="Save now">💾 Save</button>
+    <button id="sync-reauth" title="Change token">🔑 Token</button>
+    <span class="sync-label" id="sync-label">Connecting…</span>
+    <span class="sync-dot offline" id="sync-dot"></span>
+</div>
+<div class="canvas locked" id="main-canvas">
+    <div class="phases-section">
+        <div id="phases-grid"></div>
+    </div>
+    <div class="timeline-section">
+        <div class="section-header"><h2>Project Timeline</h2></div>
+        <div class="gantt" id="gantt"></div>
+    </div>
+</div>
+<div id="tooltip"></div>
+
+<script>
+(function() {
+    /* ══════════════════════════════════════════
+       SYNC CONFIG — only set the API URL here.
+       The token is entered in-browser and stored
+       in localStorage (persists across refreshes).
+       ══════════════════════════════════════════ */
+    var API_URL = 'https://timeline-api.projecttimeline.workers.dev/api/timeline';
+
+    /* ── Auth helpers (localStorage persists across refreshes) ── */
+    function getToken()    { return localStorage.getItem('timeline_token') || ''; }
+    function setToken(t)   { localStorage.setItem('timeline_token', t); }
+    function clearToken()  { localStorage.removeItem('timeline_token'); }
+
+    var authOverlay = document.getElementById('auth-overlay');
+    var authInput   = document.getElementById('auth-input');
+    var authError   = document.getElementById('auth-error');
+    var mainCanvas  = document.getElementById('main-canvas');
+
+    function showAuthModal() {
+        authOverlay.classList.remove('hidden');
+        mainCanvas.classList.add('locked');
+        authInput.value = '';
+        authInput.focus();
+        authError.style.display = 'none';
+        stopPolling();
+    }
+    function hideAuthModal() {
+        authOverlay.classList.add('hidden');
+        mainCanvas.classList.remove('locked');
+    }
+
+    /* Connect button — validates token against server before granting access */
+    document.getElementById('auth-submit').addEventListener('click', function() {
+        var val = authInput.value.trim();
+        if (!val) return;
+        var btn = document.getElementById('auth-submit');
+        btn.textContent = 'Verifying…'; btn.disabled = true;
+        /* Test the token by attempting a GET (server now requires auth for reads) */
+        fetch(API_URL, {
+            headers: { 'X-Auth-Token': val }
+        })
+        .then(function(r) {
+            btn.textContent = 'Connect'; btn.disabled = false;
+            if (r.status === 401) {
+                authError.style.display = 'block';
+                return;
+            }
+            if (!r.ok) throw new Error(r.status);
+            return r.json().then(function(resp) {
+                setToken(val);
+                hideAuthModal();
+                /* Load data from the validated response */
+                if (resp && resp.data && Array.isArray(resp.data) && resp.data.length > 0) {
+                    sections.length = 0;
+                    resp.data.forEach(function(s) { sections.push(s); });
+                }
+                if (resp && typeof resp.version === 'number') knownVersion = resp.version;
+                setSyncStatus('saved', 'Connected');
+                render();
+                isBooting = false;
+                startPolling();
+            });
+        })
+        .catch(function() {
+            btn.textContent = 'Connect'; btn.disabled = false;
+            authError.textContent = 'Connection failed — check your network.';
+            authError.style.display = 'block';
+        });
+    });
+
+    authInput.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') document.getElementById('auth-submit').click();
+    });
+    document.getElementById('sync-reauth').addEventListener('click', function() { showAuthModal(); });
+
+    /* Always require auth — canvas stays locked until password is validated */
+    if (getToken()) {
+        /* Token already in localStorage — will be validated at boot */
+        hideAuthModal();
+    } else {
+        showAuthModal();
+    }
+
+    /* ── Sync helpers ── */
+    var syncDot   = document.getElementById('sync-dot');
+    var syncLabel = document.getElementById('sync-label');
+    var saveTimer = null;
+    var knownVersion = 0;   /* tracks server version for smart polling */
+    var pollTimer = null;
+    var POLL_INTERVAL = 5000; /* 5 seconds */
+
+    function setSyncStatus(state, text) {
+        syncDot.className = 'sync-dot ' + state;
+        syncLabel.textContent = text;
+    }
+
+    function scheduleSave() {
+        if (!API_URL || !getToken()) return;
+        clearTimeout(saveTimer);
+        setSyncStatus('saving', 'Saving…');
+        saveTimer = setTimeout(doSave, 800);
+    }
+
+    function doSave() {
+        var token = getToken();
+        if (!token) { setSyncStatus('offline', 'No token'); return; }
+        var payload = JSON.stringify(sections);
+        fetch(API_URL, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json', 'X-Auth-Token': token },
+            body: payload
+        })
+        .then(function(r) {
+            if (r.status === 401) {
+                clearToken();
+                setSyncStatus('error', 'Invalid token');
+                showAuthModal();
+                throw new Error('auth');
+            }
+            if (!r.ok) throw new Error(r.status);
+            return r.json();
+        })
+        .then(function(resp) {
+            if (resp && typeof resp.version === 'number') knownVersion = resp.version;
+            setSyncStatus('saved', 'Saved');
+        })
+        .catch(function(err) {
+            if (err.message === 'auth') return;
+            setSyncStatus('error', 'Save failed — will retry');
+            saveTimer = setTimeout(doSave, 5000);
+        });
+    }
+
+    function loadFromServer(callback) {
+        if (!API_URL) {
+            setSyncStatus('offline', 'No API configured — running locally');
+            callback();
+            return;
+        }
+        var token = getToken();
+        if (!token) { showAuthModal(); return; }
+        setSyncStatus('saving', 'Loading…');
+        fetch(API_URL, { headers: { 'X-Auth-Token': token } })
+        .then(function(r) {
+            if (r.status === 401) { clearToken(); showAuthModal(); throw new Error('auth'); }
+            return r.json();
+        })
+        .then(function(resp) {
+            if (resp && resp.data && Array.isArray(resp.data) && resp.data.length > 0) {
+                sections.length = 0;
+                resp.data.forEach(function(s) { sections.push(s); });
+            }
+            if (resp && typeof resp.version === 'number') knownVersion = resp.version;
+            setSyncStatus('saved', 'Loaded');
+            callback();
+        })
+        .catch(function(err) {
+            if (err.message === 'auth') return;
+            setSyncStatus('error', 'Load failed — using defaults');
+            callback();
+        });
+    }
+
+    /* ── Smart polling: check version every 5s, only fetch if changed ── */
+    function pollVersion() {
+        if (!API_URL || !getToken()) return;
+        var versionUrl = API_URL.replace(/\/api\/timeline$/, '/api/timeline/version');
+        fetch(versionUrl, { cache: 'no-store' })
+        .then(function(r) { return r.json(); })
+        .then(function(resp) {
+            if (resp && typeof resp.version === 'number' && resp.version > knownVersion) {
+                /* Someone else saved — fetch the full data */
+                loadFromServer(function() {
+                    renderCards(); renderGantt();
+                });
+            }
+        })
+        .catch(function() { /* silently ignore poll errors */ });
+    }
+
+    function startPolling() {
+        stopPolling();
+        pollTimer = setInterval(pollVersion, POLL_INTERVAL);
+    }
+    function stopPolling() {
+        if (pollTimer) { clearInterval(pollTimer); pollTimer = null; }
+    }
+
+    /* ── Config ── */
+    var WEEKS = [
+        { label: 'W4 Apr', sub: '23 \u2013 27',       date: 'Apr 23' },
+        { label: 'W1 May', sub: '28 Apr \u2013 4',     date: 'Apr 28' },
+        { label: 'W2 May', sub: '5 \u2013 11',         date: 'May 5' },
+        { label: 'W3 May', sub: '12 \u2013 18',        date: 'May 12' },
+        { label: 'W4 May', sub: '19 \u2013 25',        date: 'May 25' }
+    ];
+    var WEEK_ENDS = ['Apr 27', 'May 4', 'May 11', 'May 18', 'May 25'];
+    var COLS = WEEKS.length;
+    var PHASE_COLORS = [1, 2, 3, 4, 5];
+
+    var SVG_PLUS = '<svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>';
+    var SVG_X    = '<svg viewBox="0 0 24 24"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>';
+
+    /* ── Data ── */
+    var sections = [
+        { title: 'Static Demos', phase: 1, subtasks: ['Demo design', 'Demo coding'], rows: [
+            { name: 'Static Demo 1', phase: 1, start: 0, span: 2 },
+            { name: 'Static Demo 2', phase: 1, start: 0, span: 2 },
+            { name: 'Static Demo 3', phase: 1, start: 1, span: 1 }
+        ]},
+        { title: 'Benchmark Experiments', phase: 2, subtasks: ['Experiment design', 'Experiment execution', 'Experiment data collection', 'Experiment data presentation'], rows: [
+            { name: 'Benchmark Experiment 1', phase: 2, start: 1, span: 2 },
+            { name: 'Benchmark Experiment 2', phase: 2, start: 1, span: 2 },
+            { name: 'Benchmark Experiment 3', phase: 2, start: 2, span: 2 },
+            { name: 'Benchmark Experiment 4', phase: 2, start: 2, span: 2 },
+            { name: 'Benchmark Experiment 5', phase: 2, start: 3, span: 2 }
+        ]},
+        { title: 'Live Demos', phase: 3, subtasks: ['Backend design', 'Backend implementation'], rows: [
+            { name: 'Live Demo 1', phase: 3, start: 3, span: 2 },
+            { name: 'Live Demo 2', phase: 3, start: 3, span: 2 },
+            { name: 'Live Demo 3', phase: 3, start: 4, span: 1 }
+        ]}
+    ];
+
+    var phasesGridEl = document.getElementById('phases-grid');
+    var ganttEl      = document.getElementById('gantt');
+    var tooltip      = document.getElementById('tooltip');
+    var drag         = null;
+
+    /* ─────────── PHASE CARDS (dynamic) ─────────── */
+    function renderCards() {
+        phasesGridEl.innerHTML = '';
+        var count = sections.length;
+        phasesGridEl.style.gridTemplateColumns = 'repeat(' + Math.min(count, 4) + ', 1fr)';
+
+        sections.forEach(function(sec) {
+            var card = document.createElement('div');
+            card.className = 'phase-card pc-' + sec.phase;
+
+            var dateRange = getDateRange(sec);
+
+            var html = '<div class="phase-number pn-' + sec.phase + '">' + esc(sec.title) + '</div>';
+            html += '<div class="phase-title">' + esc(sec.title) + '</div>';
+            html += '<div class="phase-date">' + dateRange + '</div>';
+
+            if (sec.subtasks && sec.subtasks.length) {
+                html += '<ul class="phase-activities">';
+                sec.subtasks.forEach(function(st) { html += '<li>' + esc(st) + '</li>'; });
+                html += '</ul>';
+            } else if (sec.rows.length) {
+                html += '<ul class="phase-activities">';
+                sec.rows.forEach(function(r) { html += '<li>' + esc(r.name) + '</li>'; });
+                html += '</ul>';
+            } else {
+                html += '<div class="phase-empty">No activities yet</div>';
+            }
+
+            card.innerHTML = html;
+            phasesGridEl.appendChild(card);
+        });
+    }
+
+    function getDateRange(sec) {
+        if (!sec.rows.length) return '\u2014';
+        var minStart = COLS, maxEnd = 0;
+        sec.rows.forEach(function(r) {
+            if (r.start < minStart) minStart = r.start;
+            var end = r.start + r.span - 1;
+            if (end > maxEnd) maxEnd = end;
+        });
+        var startLabel = WEEKS[minStart] ? WEEKS[minStart].date : '?';
+        var endLabel   = WEEK_ENDS[maxEnd] ? WEEK_ENDS[maxEnd] : '?';
+        return startLabel + ' \u2013 ' + endLabel;
+    }
+
+    function esc(s) { var d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
+
+    /* ─────────── GANTT ─────────── */
+    function renderGantt() {
+        ganttEl.innerHTML = '';
+
+        var hdr = document.createElement('div');
+        hdr.className = 'gantt-header';
+        hdr.innerHTML = '<div class="gantt-header-label">Activities</div><div class="gantt-header-cols">' +
+            WEEKS.map(function(w) { return '<span>' + w.label + '<small>' + w.sub + '</small></span>'; }).join('') + '</div>';
+        ganttEl.appendChild(hdr);
+
+        sections.forEach(function(sec, si) {
+            ganttEl.appendChild(buildSection(sec, si));
+            sec.rows.forEach(function(row, ri) {
+                ganttEl.appendChild(buildRow(row, si, ri));
+            });
+        });
+
+        var addSecBtn = document.createElement('button');
+        addSecBtn.className = 'add-section-btn';
+        addSecBtn.innerHTML = SVG_PLUS + ' Add Section';
+        addSecBtn.addEventListener('click', addSection);
+        ganttEl.appendChild(addSecBtn);
+    }
+
+    function render() { renderCards(); renderGantt(); scheduleSave(); }
+
+    /* ── Section header ── */
+    function buildSection(sec, si) {
+        var el = document.createElement('div');
+        el.className = 'gantt-section';
+
+        var title = document.createElement('div');
+        title.className = 'gantt-section-title sc-' + sec.phase;
+        title.textContent = sec.title;
+        title.addEventListener('dblclick', function() { startEditSection(title, sec); });
+        el.appendChild(title);
+
+        var addBtn = document.createElement('button');
+        addBtn.className = 'add-btn';
+        addBtn.innerHTML = SVG_PLUS + ' Add';
+        addBtn.addEventListener('click', function() { addActivity(si); });
+        el.appendChild(addBtn);
+
+        var dots = document.createElement('div');
+        dots.className = 'color-dots';
+        PHASE_COLORS.forEach(function(c) {
+            var dot = document.createElement('div');
+            dot.className = 'color-dot' + (sec.phase === c ? ' active' : '');
+            dot.dataset.c = c;
+            dot.addEventListener('click', function() { changeSectionColor(si, c); });
+            dots.appendChild(dot);
+        });
+        el.appendChild(dots);
+
+        var del = document.createElement('button');
+        del.className = 'section-delete';
+        del.innerHTML = SVG_X;
+        del.title = 'Remove section';
+        del.addEventListener('click', function() { sections.splice(si, 1); render(); });
+        el.appendChild(del);
+
+        return el;
+    }
+
+    function changeSectionColor(si, c) {
+        sections[si].phase = c;
+        sections[si].rows.forEach(function(r) { r.phase = c; });
+        render();
+    }
+
+    function startEditSection(el, sec) {
+        if (el.querySelector('input')) return;
+        var cur = sec.title;
+        el.textContent = '';
+        var inp = document.createElement('input');
+        inp.type = 'text'; inp.value = cur;
+        el.appendChild(inp); inp.focus(); inp.select();
+        function commit() { sec.title = inp.value.trim() || cur; render(); }
+        inp.addEventListener('blur', commit);
+        inp.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') commit();
+            if (e.key === 'Escape') { sec.title = cur; render(); }
+        });
+    }
+
+    function addSection() {
+        var used = sections.map(function(s) { return s.phase; });
+        var np = 1;
+        for (var i = 0; i < PHASE_COLORS.length; i++) { if (used.indexOf(PHASE_COLORS[i]) === -1) { np = PHASE_COLORS[i]; break; } }
+        if (used.indexOf(np) !== -1) np = (sections.length % PHASE_COLORS.length) + 1;
+        sections.push({ title: 'New Section', phase: np, subtasks: [], rows: [] });
+        render();
+        var titles = ganttEl.querySelectorAll('.gantt-section-title');
+        var last = titles[titles.length - 1];
+        if (last) startEditSection(last, sections[sections.length - 1]);
+    }
+
+    function addActivity(si) {
+        var sec = sections[si];
+        sec.rows.push({ name: 'New Activity ' + (sec.rows.length + 1), phase: sec.phase, start: 0, span: 1 });
+        render();
+        var allRows = ganttEl.querySelectorAll('.gantt-row');
+        var idx = 0;
+        for (var s = 0; s < si; s++) idx += sections[s].rows.length;
+        idx += sec.rows.length - 1;
+        var target = allRows[idx];
+        if (target) { var lbl = target.querySelector('.gantt-row-label'); if (lbl) startEditRow(lbl, sec.rows[sec.rows.length - 1]); }
+    }
+
+    /* ── Activity row ── */
+    function buildRow(row, si, ri) {
+        var el = document.createElement('div');
+        el.className = 'gantt-row'; el.dataset.si = si; el.dataset.ri = ri;
+
+        var grip = document.createElement('div');
+        grip.className = 'row-grip'; grip.innerHTML = '<i></i><i></i><i></i>';
+        grip.setAttribute('draggable', 'true');
+        el.appendChild(grip);
+
+        var lbl = document.createElement('div');
+        lbl.className = 'gantt-row-label'; lbl.textContent = row.name;
+        lbl.addEventListener('dblclick', function() { startEditRow(lbl, row); });
+        el.appendChild(lbl);
+
+        var del = document.createElement('button');
+        del.className = 'row-delete'; del.innerHTML = SVG_X; del.title = 'Remove';
+        del.addEventListener('click', function() { sections[si].rows.splice(ri, 1); render(); });
+        el.appendChild(del);
+
+        var track = document.createElement('div');
+        track.className = 'gantt-track';
+        for (var c = 1; c < COLS; c++) { var ln = document.createElement('div'); ln.className = 'snap-line'; ln.style.left = (c / COLS * 100) + '%'; track.appendChild(ln); }
+
+        var bar = document.createElement('div');
+        bar.className = 'gantt-bar bar-' + row.phase;
+        posBar(bar, row);
+
+        var hl = document.createElement('div'); hl.className = 'bar-handle bar-handle-l';
+        var hr = document.createElement('div'); hr.className = 'bar-handle bar-handle-r';
+        bar.appendChild(hl); bar.appendChild(hr);
+        track.appendChild(bar); el.appendChild(track);
+
+        /* bar drag */
+        bar.addEventListener('mousedown', function(e) {
+            if (e.target.classList.contains('bar-handle')) return;
+            e.preventDefault();
+            var tr = track.getBoundingClientRect(), br = bar.getBoundingClientRect();
+            drag = { type: 'move', sx: e.clientX, origL: br.left - tr.left, tw: tr.width, row: row, bar: bar };
+            bar.classList.add('is-dragging'); document.body.style.cursor = 'grabbing';
+        });
+
+        function resDown(side) {
+            return function(e) {
+                e.preventDefault(); e.stopPropagation();
+                var tr = track.getBoundingClientRect();
+                drag = { type: 'resize', side: side, sx: e.clientX, os: row.start, osp: row.span, tw: tr.width, row: row, bar: bar };
+                bar.classList.add('is-dragging'); document.body.style.cursor = 'col-resize';
+            };
+        }
+        hl.addEventListener('mousedown', resDown('left'));
+        hr.addEventListener('mousedown', resDown('right'));
+
+        /* row reorder */
+        grip.addEventListener('dragstart', function(e) {
+            e.dataTransfer.effectAllowed = 'move';
+            e.dataTransfer.setData('text/plain', si + ',' + ri);
+            setTimeout(function() { el.classList.add('dragging-row'); }, 0);
+        });
+        grip.addEventListener('dragend', function() {
+            el.classList.remove('dragging-row');
+            ganttEl.querySelectorAll('.drag-over-row').forEach(function(r) { r.classList.remove('drag-over-row'); });
+        });
+        el.addEventListener('dragover', function(e) { e.preventDefault(); e.dataTransfer.dropEffect = 'move'; el.classList.add('drag-over-row'); });
+        el.addEventListener('dragleave', function() { el.classList.remove('drag-over-row'); });
+        el.addEventListener('drop', function(e) {
+            e.preventDefault(); el.classList.remove('drag-over-row');
+            var p = e.dataTransfer.getData('text/plain').split(','), fs = +p[0], fr = +p[1], ts = si, tr2 = ri;
+            if (fs === ts) { var arr = sections[fs].rows, m = arr.splice(fr, 1)[0]; arr.splice(tr2, 0, m); }
+            else { var m2 = sections[fs].rows.splice(fr, 1)[0]; m2.phase = sections[ts].phase; sections[ts].rows.splice(tr2, 0, m2); }
+            render();
+        });
+
+        return el;
+    }
+
+    function startEditRow(el, row) {
+        if (el.querySelector('input')) return;
+        var cur = row.name;
+        el.textContent = '';
+        var inp = document.createElement('input');
+        inp.type = 'text'; inp.value = cur;
+        el.appendChild(inp); inp.focus(); inp.select();
+        function commit() { row.name = inp.value.trim() || cur; render(); }
+        inp.addEventListener('blur', commit);
+        inp.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') commit();
+            if (e.key === 'Escape') { row.name = cur; render(); }
+        });
+    }
+
+    function posBar(bar, row) {
+        bar.style.left  = 'calc(' + (row.start / COLS * 100) + '% + 3px)';
+        bar.style.width = 'calc(' + (row.span  / COLS * 100) + '% - 6px)';
+    }
+
+    function showTip(ev, row) {
+        var s = WEEKS[row.start] ? WEEKS[row.start].label : '?';
+        var e = WEEKS[row.start + row.span - 1] ? WEEKS[row.start + row.span - 1].label : '?';
+        tooltip.textContent = row.span === 1 ? s : s + '  \u2192  ' + e;
+        tooltip.style.left = (ev.clientX + 14) + 'px';
+        tooltip.style.top  = (ev.clientY - 36) + 'px';
+        tooltip.classList.add('visible');
+    }
+    function hideTip() { tooltip.classList.remove('visible'); }
+
+    /* ── Global drag ── */
+    document.addEventListener('mousemove', function(e) {
+        if (!drag) return;
+        var cw = drag.tw / COLS;
+        if (drag.type === 'move') {
+            var ns = Math.round((drag.origL + e.clientX - drag.sx) / cw);
+            ns = Math.max(0, Math.min(COLS - drag.row.span, ns));
+            drag.row.start = ns; posBar(drag.bar, drag.row); showTip(e, drag.row);
+        }
+        if (drag.type === 'resize') {
+            var dc = Math.round((e.clientX - drag.sx) / cw);
+            if (drag.side === 'right') {
+                drag.row.span = Math.max(1, Math.min(COLS - drag.row.start, drag.osp + dc));
+            } else {
+                var nst = drag.os + dc, nsp = drag.osp - dc;
+                if (nst < 0) { nsp += nst; nst = 0; }
+                if (nsp < 1) { nst = drag.os + drag.osp - 1; nsp = 1; }
+                if (nst + nsp > COLS) nsp = COLS - nst;
+                drag.row.start = nst; drag.row.span = nsp;
+            }
+            posBar(drag.bar, drag.row); showTip(e, drag.row);
+        }
+    });
+
+    document.addEventListener('mouseup', function() {
+        if (drag) {
+            drag.bar.classList.remove('is-dragging');
+            drag = null; document.body.style.cursor = '';
+            hideTip(); renderCards(); scheduleSave();
+        }
+    });
+
+    /* ── Save button: immediate save ── */
+    document.getElementById('sync-save').addEventListener('click', function() {
+        if (!API_URL || !getToken()) return;
+        clearTimeout(saveTimer);
+        doSave();
+    });
+
+    /* ── Boot: if token exists, validate & load; otherwise show auth ── */
+    var isBooting = true;
+    var _realRender = render;
+    render = function() {
+        renderCards(); renderGantt();
+        if (!isBooting) scheduleSave();
+    };
+
+    if (API_URL && getToken()) {
+        /* Token already in localStorage — validate and load */
+        loadFromServer(function() {
+            render();
+            isBooting = false;
+            startPolling();
+        });
+    } else if (!API_URL) {
+        /* No API — local mode */
+        render();
+        isBooting = false;
+    }
+    /* else: auth modal is already showing, boot happens after login */
+})();
+</script>
+</body>
+</html>
